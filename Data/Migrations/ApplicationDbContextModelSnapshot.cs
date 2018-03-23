@@ -26,11 +26,35 @@ namespace VideoEntityFrameworkCore.Data.Migrations
 
                     b.Property<string>("Nome");
 
+                    b.Property<Guid>("ProdutoGrupoId");
+
                     b.Property<decimal>("Valor");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ProdutoGrupoId");
+
                     b.ToTable("Produtos");
+                });
+
+            modelBuilder.Entity("VideoEntityFrameworkCore.Models.ProdutoGrupo", b =>
+                {
+                    b.Property<Guid>("ProdutoGrupoId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Nome");
+
+                    b.HasKey("ProdutoGrupoId");
+
+                    b.ToTable("ProdutosGrupos");
+                });
+
+            modelBuilder.Entity("VideoEntityFrameworkCore.Models.Produto", b =>
+                {
+                    b.HasOne("VideoEntityFrameworkCore.Models.ProdutoGrupo", "ProdutoGrupo")
+                        .WithMany("Produtos")
+                        .HasForeignKey("ProdutoGrupoId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

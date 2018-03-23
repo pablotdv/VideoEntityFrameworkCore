@@ -16,5 +16,7 @@ namespace VideoEntityFrameworkCore.Data
         }
 
         public DbSet<Produto> Produtos { get; set; }
+
+        public DbSet<ProdutoGrupo> ProdutosGrupos { get; set; }
     }
 }
