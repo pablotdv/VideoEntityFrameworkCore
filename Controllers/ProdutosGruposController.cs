@@ -10,24 +10,22 @@ using VideoEntityFrameworkCore.Models;
 
 namespace VideoEntityFrameworkCore.Controllers
 {
-    public class ProdutosController : Controller
+    public class ProdutosGruposController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ProdutosController(ApplicationDbContext context)
+        public ProdutosGruposController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Produtos
+        // GET: ProdutosGrupos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Produtos
-                .Include(a => a.ProdutoGrupo)
-                .ToListAsync());
+            return View(await _context.ProdutosGrupos.ToListAsync());
         }
 
-        // GET: Produtos/Details/5
+        // GET: ProdutosGrupos/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -35,48 +33,40 @@ namespace VideoEntityFrameworkCore.Controllers
                 return NotFound();
             }
 
-            var produto = await _context.Produtos
-                .Include(a => a.ProdutoGrupo)
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (produto == null)
+            var produtoGrupo = await _context.ProdutosGrupos
+                .SingleOrDefaultAsync(m => m.ProdutoGrupoId == id);
+            if (produtoGrupo == null)
             {
                 return NotFound();
             }
 
-            return View(produto);
+            return View(produtoGrupo);
         }
 
-        // GET: Produtos/Create
+        // GET: ProdutosGrupos/Create
         public IActionResult Create()
         {
-            ViewData["ProdutoGrupoId"] = new SelectList(_context.ProdutosGrupos
-                .OrderBy(a => a.Nome), "ProdutoGrupoId", "Nome");
-
             return View();
         }
 
-        // POST: Produtos/Create
+        // POST: ProdutosGrupos/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProdutoGrupoId,Nome,Valor")] Produto produto)
+        public async Task<IActionResult> Create([Bind("ProdutoGrupoId,Nome")] ProdutoGrupo produtoGrupo)
         {
             if (ModelState.IsValid)
             {
-                produto.Id = Guid.NewGuid();
-                _context.Add(produto);
+                produtoGrupo.ProdutoGrupoId = Guid.NewGuid();
+                _context.Add(produtoGrupo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewData["ProdutoGrupoId"] = new SelectList(_context.ProdutosGrupos
-                .OrderBy(a => a.Nome), "ProdutoGrupoId", "Nome",
-                produto.ProdutoGrupoId);
-            return View(produto);
+            return View(produtoGrupo);
         }
 
-        // GET: Produtos/Edit/5
+        // GET: ProdutosGrupos/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -84,26 +74,22 @@ namespace VideoEntityFrameworkCore.Controllers
                 return NotFound();
             }
 
-            var produto = await _context.Produtos.SingleOrDefaultAsync(m => m.Id == id);
-            if (produto == null)
+            var produtoGrupo = await _context.ProdutosGrupos.SingleOrDefaultAsync(m => m.ProdutoGrupoId == id);
+            if (produtoGrupo == null)
             {
                 return NotFound();
             }
-
-            ViewData["ProdutoGrupoId"] = new SelectList(_context.ProdutosGrupos
-               .OrderBy(a => a.Nome), "ProdutoGrupoId", "Nome",
-               produto.ProdutoGrupoId);
-            return View(produto);
+            return View(produtoGrupo);
         }
 
-        // POST: Produtos/Edit/5
+        // POST: ProdutosGrupos/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,ProdutoGrupoId,Nome,Valor")] Produto produto)
+        public async Task<IActionResult> Edit(Guid id, [Bind("ProdutoGrupoId,Nome")] ProdutoGrupo produtoGrupo)
         {
-            if (id != produto.Id)
+            if (id != produtoGrupo.ProdutoGrupoId)
             {
                 return NotFound();
             }
@@ -112,12 +98,12 @@ namespace VideoEntityFrameworkCore.Controllers
             {
                 try
                 {
-                    _context.Update(produto);
+                    _context.Update(produtoGrupo);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProdutoExists(produto.Id))
+                    if (!ProdutoGrupoExists(produtoGrupo.ProdutoGrupoId))
                     {
                         return NotFound();
                     }
@@ -128,14 +114,10 @@ namespace VideoEntityFrameworkCore.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewData["ProdutoGrupoId"] = new SelectList(_context.ProdutosGrupos
-               .OrderBy(a => a.Nome), "ProdutoGrupoId", "Nome",
-               produto.ProdutoGrupoId);
-            return View(produto);
+            return View(produtoGrupo);
         }
 
-        // GET: Produtos/Delete/5
+        // GET: ProdutosGrupos/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -143,31 +125,30 @@ namespace VideoEntityFrameworkCore.Controllers
                 return NotFound();
             }
 
-            var produto = await _context.Produtos
-                .Include(a => a.ProdutoGrupo)
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (produto == null)
+            var produtoGrupo = await _context.ProdutosGrupos
+                .SingleOrDefaultAsync(m => m.ProdutoGrupoId == id);
+            if (produtoGrupo == null)
             {
                 return NotFound();
             }
 
-            return View(produto);
+            return View(produtoGrupo);
         }
 
-        // POST: Produtos/Delete/5
+        // POST: ProdutosGrupos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var produto = await _context.Produtos.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Produtos.Remove(produto);
+            var produtoGrupo = await _context.ProdutosGrupos.SingleOrDefaultAsync(m => m.ProdutoGrupoId == id);
+            _context.ProdutosGrupos.Remove(produtoGrupo);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProdutoExists(Guid id)
+        private bool ProdutoGrupoExists(Guid id)
         {
-            return _context.Produtos.Any(e => e.Id == id);
+            return _context.ProdutosGrupos.Any(e => e.ProdutoGrupoId == id);
         }
     }
 }
