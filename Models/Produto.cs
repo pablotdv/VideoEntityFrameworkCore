@@ -16,5 +16,7 @@ namespace VideoEntityFrameworkCore.Models
 
 
         public virtual ProdutoGrupo ProdutoGrupo { get; set; }
+
+        public virtual ICollection<ProdutoCategoria> Categorias { get; set; }
     }
 }
