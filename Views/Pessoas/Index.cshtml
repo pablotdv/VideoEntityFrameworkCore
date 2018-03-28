@@ -1,0 +1,56 @@
+﻿@model IEnumerable<VideoEntityFrameworkCore.Models.Pessoa>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create" asp-controller="PessoasFisicas">Create PF</a>
+    <a asp-action="Create" asp-controller="PessoasJuridicas">Create PJ</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CpfCnpj)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CpfCnpj)
+                </td>
+                <td>
+                    @if (item is PessoaJuridica)
+                    {
+                        <div>
+                            <a asp-controller="PessoasJuridicas" asp-action="Edit" asp-route-id="@item.PessoaId">Edit</a> |
+                            <a asp-controller="PessoasJuridicas" asp-action="Details" asp-route-id="@item.PessoaId">Details</a> |
+                            <a asp-controller="PessoasJuridicas" asp-action="Delete" asp-route-id="@item.PessoaId">Delete</a>
+                        </div>
+                    }
+                    else if (item is PessoaFisica)
+                    {
+                        <div>
+                            <a asp-controller="PessoasFisicas" asp-action="Edit" asp-route-id="@item.PessoaId">Edit</a> |
+                            <a asp-controller="PessoasFisicas" asp-action="Details" asp-route-id="@item.PessoaId">Details</a> |
+                            <a asp-controller="PessoasFisicas" asp-action="Delete" asp-route-id="@item.PessoaId">Delete</a>
+                        </div>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

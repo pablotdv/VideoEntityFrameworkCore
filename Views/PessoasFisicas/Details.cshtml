@@ -1,0 +1,36 @@
+﻿@model VideoEntityFrameworkCore.Models.PessoaFisica
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PessoaFisica</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Sexo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Sexo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CpfCnpj)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CpfCnpj)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.PessoaId">Edit</a> |
+    <a asp-action="Index" asp-controller="Pessoas">Back to List</a>
+</div>
