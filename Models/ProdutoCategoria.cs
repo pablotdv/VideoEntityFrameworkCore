@@ -7,6 +7,8 @@ namespace VideoEntityFrameworkCore.Models
 {
     public class ProdutoCategoria
     {
+        public Guid ProdutoCategoriaId { get; set; }
+
         public Guid ProdutoId { get; set; }
 
         public Guid CategoriaId { get; set; }

@@ -30,7 +30,7 @@ namespace VideoEntityFrameworkCore.Data.Migrations
 
                     b.HasKey("CategoriaId");
 
-                    b.ToTable("Categoria");
+                    b.ToTable("Categorias");
                 });
 
             modelBuilder.Entity("VideoEntityFrameworkCore.Models.Pessoa", b =>
@@ -72,13 +72,18 @@ namespace VideoEntityFrameworkCore.Data.Migrations
 
             modelBuilder.Entity("VideoEntityFrameworkCore.Models.ProdutoCategoria", b =>
                 {
-                    b.Property<Guid>("ProdutoId");
+                    b.Property<Guid>("ProdutoCategoriaId")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("CategoriaId");
 
-                    b.HasKey("ProdutoId", "CategoriaId");
+                    b.Property<Guid>("ProdutoId");
+
+                    b.HasKey("ProdutoCategoriaId");
 
                     b.HasIndex("CategoriaId");
+
+                    b.HasIndex("ProdutoId");
 
                     b.ToTable("ProdutosCategorias");
                 });

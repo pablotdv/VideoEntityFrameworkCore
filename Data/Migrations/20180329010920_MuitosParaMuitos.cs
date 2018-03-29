@@ -9,7 +9,7 @@ namespace VideoEntityFrameworkCore.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Categoria",
+                name: "Categorias",
                 columns: table => new
                 {
                     CategoriaId = table.Column<Guid>(nullable: false),
@@ -17,23 +17,24 @@ namespace VideoEntityFrameworkCore.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categoria", x => x.CategoriaId);
+                    table.PrimaryKey("PK_Categorias", x => x.CategoriaId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "ProdutosCategorias",
                 columns: table => new
                 {
-                    ProdutoId = table.Column<Guid>(nullable: false),
-                    CategoriaId = table.Column<Guid>(nullable: false)
+                    ProdutoCategoriaId = table.Column<Guid>(nullable: false),
+                    CategoriaId = table.Column<Guid>(nullable: false),
+                    ProdutoId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProdutosCategorias", x => new { x.ProdutoId, x.CategoriaId });
+                    table.PrimaryKey("PK_ProdutosCategorias", x => x.ProdutoCategoriaId);
                     table.ForeignKey(
-                        name: "FK_ProdutosCategorias_Categoria_CategoriaId",
+                        name: "FK_ProdutosCategorias_Categorias_CategoriaId",
                         column: x => x.CategoriaId,
-                        principalTable: "Categoria",
+                        principalTable: "Categorias",
                         principalColumn: "CategoriaId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -48,6 +49,11 @@ namespace VideoEntityFrameworkCore.Data.Migrations
                 name: "IX_ProdutosCategorias_CategoriaId",
                 table: "ProdutosCategorias",
                 column: "CategoriaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProdutosCategorias_ProdutoId",
+                table: "ProdutosCategorias",
+                column: "ProdutoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -56,7 +62,7 @@ namespace VideoEntityFrameworkCore.Data.Migrations
                 name: "ProdutosCategorias");
 
             migrationBuilder.DropTable(
-                name: "Categoria");
+                name: "Categorias");
         }
     }
 }

@@ -27,10 +27,14 @@ namespace VideoEntityFrameworkCore.Data
 
         public DbSet<ProdutoCategoria> ProdutosCategorias { get; set; }
 
+        public DbSet<Categoria> Categorias { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ProdutoCategoria>()
-                .HasKey(bc => new { bc.ProdutoId, bc.CategoriaId });
+                .HasKey(bc => new { bc.ProdutoCategoriaId });
         }
+
+        
     }
 }
