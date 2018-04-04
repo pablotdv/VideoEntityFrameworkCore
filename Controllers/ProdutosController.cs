@@ -37,7 +37,7 @@ namespace VideoEntityFrameworkCore.Controllers
 
             var produto = await _context.Produtos
                 .Include(a => a.ProdutoGrupo)
-                .SingleOrDefaultAsync(m => m.Id == id);
+                .SingleOrDefaultAsync(m => m.ProdutoId == id);
             if (produto == null)
             {
                 return NotFound();
@@ -64,7 +64,7 @@ namespace VideoEntityFrameworkCore.Controllers
         {
             if (ModelState.IsValid)
             {
-                produto.Id = Guid.NewGuid();
+                produto.ProdutoId = Guid.NewGuid();
                 _context.Add(produto);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -84,7 +84,7 @@ namespace VideoEntityFrameworkCore.Controllers
                 return NotFound();
             }
 
-            var produto = await _context.Produtos.SingleOrDefaultAsync(m => m.Id == id);
+            var produto = await _context.Produtos.SingleOrDefaultAsync(m => m.ProdutoId == id);
             if (produto == null)
             {
                 return NotFound();
@@ -103,7 +103,7 @@ namespace VideoEntityFrameworkCore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id,ProdutoGrupoId,Nome,Valor")] Produto produto)
         {
-            if (id != produto.Id)
+            if (id != produto.ProdutoId)
             {
                 return NotFound();
             }
@@ -117,7 +117,7 @@ namespace VideoEntityFrameworkCore.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProdutoExists(produto.Id))
+                    if (!ProdutoExists(produto.ProdutoId))
                     {
                         return NotFound();
                     }
@@ -145,7 +145,7 @@ namespace VideoEntityFrameworkCore.Controllers
 
             var produto = await _context.Produtos
                 .Include(a => a.ProdutoGrupo)
-                .SingleOrDefaultAsync(m => m.Id == id);
+                .SingleOrDefaultAsync(m => m.ProdutoId == id);
             if (produto == null)
             {
                 return NotFound();
@@ -159,7 +159,7 @@ namespace VideoEntityFrameworkCore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var produto = await _context.Produtos.SingleOrDefaultAsync(m => m.Id == id);
+            var produto = await _context.Produtos.SingleOrDefaultAsync(m => m.ProdutoId == id);
             _context.Produtos.Remove(produto);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -167,7 +167,7 @@ namespace VideoEntityFrameworkCore.Controllers
 
         private bool ProdutoExists(Guid id)
         {
-            return _context.Produtos.Any(e => e.Id == id);
+            return _context.Produtos.Any(e => e.ProdutoId == id);
         }
     }
 }

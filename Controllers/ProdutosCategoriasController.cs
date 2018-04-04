@@ -50,7 +50,7 @@ namespace VideoEntityFrameworkCore.Controllers
         public IActionResult Create()
         {
             ViewData["CategoriaId"] = new SelectList(_context.Categorias, "CategoriaId", "Nome");
-            ViewData["ProdutoId"] = new SelectList(_context.Produtos, "Id", "Nome");
+            ViewData["ProdutoId"] = new SelectList(_context.Produtos, "ProdutoId", "Nome");
             return View();
         }
 
@@ -69,7 +69,7 @@ namespace VideoEntityFrameworkCore.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoriaId"] = new SelectList(_context.Categorias, "CategoriaId", "Nome", produtoCategoria.CategoriaId);
-            ViewData["ProdutoId"] = new SelectList(_context.Produtos, "Id", "Nome", produtoCategoria.ProdutoId);
+            ViewData["ProdutoId"] = new SelectList(_context.Produtos, "ProdutoId", "Nome", produtoCategoria.ProdutoId);
             return View(produtoCategoria);
         }
 
@@ -87,7 +87,7 @@ namespace VideoEntityFrameworkCore.Controllers
                 return NotFound();
             }
             ViewData["CategoriaId"] = new SelectList(_context.Categorias, "CategoriaId", "Nome", produtoCategoria.CategoriaId);
-            ViewData["ProdutoId"] = new SelectList(_context.Produtos, "Id", "Nome", produtoCategoria.ProdutoId);
+            ViewData["ProdutoId"] = new SelectList(_context.Produtos, "ProdutoId", "Nome", produtoCategoria.ProdutoId);
             return View(produtoCategoria);
         }
 
@@ -124,7 +124,7 @@ namespace VideoEntityFrameworkCore.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoriaId"] = new SelectList(_context.Categorias, "CategoriaId", "Nome", produtoCategoria.CategoriaId);
-            ViewData["ProdutoId"] = new SelectList(_context.Produtos, "Id", "Nome", produtoCategoria.ProdutoId);
+            ViewData["ProdutoId"] = new SelectList(_context.Produtos, "ProdutoId", "Nome", produtoCategoria.ProdutoId);
             return View(produtoCategoria);
         }
 

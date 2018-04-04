@@ -10,7 +10,7 @@ using System;
 using VideoEntityFrameworkCore.Data;
 using VideoEntityFrameworkCore.Models;
 
-namespace VideoEntityFrameworkCore.Data.Migrations
+namespace VideoEntityFrameworkCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -26,7 +26,9 @@ namespace VideoEntityFrameworkCore.Data.Migrations
                     b.Property<Guid>("CategoriaId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Nome");
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
                     b.HasKey("CategoriaId");
 
@@ -38,12 +40,16 @@ namespace VideoEntityFrameworkCore.Data.Migrations
                     b.Property<Guid>("PessoaId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("CpfCnpj");
+                    b.Property<string>("CpfCnpj")
+                        .IsRequired()
+                        .HasMaxLength(14);
 
                     b.Property<string>("Discriminator")
                         .IsRequired();
 
-                    b.Property<string>("Nome");
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
                     b.HasKey("PessoaId");
 
@@ -54,16 +60,18 @@ namespace VideoEntityFrameworkCore.Data.Migrations
 
             modelBuilder.Entity("VideoEntityFrameworkCore.Models.Produto", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("ProdutoId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Nome");
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
                     b.Property<Guid>("ProdutoGrupoId");
 
                     b.Property<decimal>("Valor");
 
-                    b.HasKey("Id");
+                    b.HasKey("ProdutoId");
 
                     b.HasIndex("ProdutoGrupoId");
 
@@ -93,7 +101,9 @@ namespace VideoEntityFrameworkCore.Data.Migrations
                     b.Property<Guid>("ProdutoGrupoId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Nome");
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
                     b.HasKey("ProdutoGrupoId");
 
@@ -106,7 +116,7 @@ namespace VideoEntityFrameworkCore.Data.Migrations
 
                     b.Property<int>("Sexo");
 
-                    b.ToTable("PessoaFisica");
+                    b.ToTable("Pessoas");
 
                     b.HasDiscriminator().HasValue("PessoaFisica");
                 });
@@ -115,9 +125,11 @@ namespace VideoEntityFrameworkCore.Data.Migrations
                 {
                     b.HasBaseType("VideoEntityFrameworkCore.Models.Pessoa");
 
-                    b.Property<string>("NomeFantasia");
+                    b.Property<string>("NomeFantasia")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
-                    b.ToTable("PessoaJuridica");
+                    b.ToTable("Pessoas");
 
                     b.HasDiscriminator().HasValue("PessoaJuridica");
                 });

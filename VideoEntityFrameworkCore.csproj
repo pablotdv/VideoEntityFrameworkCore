@@ -5,6 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\20180323022323_Init.cs" />
+    <Compile Remove="Data\Migrations\20180323022323_Init.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180323230615_Heranca.cs" />
+    <Compile Remove="Data\Migrations\20180323230615_Heranca.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180329010920_MuitosParaMuitos.cs" />
+    <Compile Remove="Data\Migrations\20180329010920_MuitosParaMuitos.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.2" />
@@ -14,6 +23,10 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.2" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
 </Project>
