@@ -26,6 +26,15 @@
                 <input asp-for="Valor" class="form-control" />
                 <span asp-validation-for="Valor" class="text-danger"></span>
             </div>
+            <div class="form-group" id="categorias-div">
+                @foreach (var categoria in Model.Categorias)
+                {
+                    @Html.Partial("_Categoria", categoria)
+                }
+            </div>
+            <button type="button" id="adicionar-categoria" class="btn btn-primary">
+                <i class="glyphicon glyphicon-plus"></i> Categoria
+            </button>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
@@ -39,4 +48,17 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $('#adicionar-categoria').on('click', function () {
+            var url = '@Url.Action("AdicionarCategoria")';
+            $.get(url, function (data) {
+                $('#categorias-div').append(data);
+            });
+        });
+
+        $('body').on('click', '#remover-categoria', function () {
+            $(this).parent().remove();
+        });
+    </script>
 }

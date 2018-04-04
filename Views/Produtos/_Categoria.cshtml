@@ -1,0 +1,12 @@
+﻿@model VideoEntityFrameworkCore.Models.ProdutoCategoria
+
+@using (Html.BeginCollectionItem("Categorias"))
+{
+    <input type="hidden" asp-for="ProdutoCategoriaId"/>
+    <div class="form-group">
+        <label asp-for="CategoriaId" class="control-label"></label>
+        <select asp-for="CategoriaId" class="form-control" asp-items="ViewBag.CategoriaId"></select>
+        <button id="remover-categoria" class="btn btn-primary" type="button"><i class="glyphicon glyphicon-remove"></i></button>
+    </div>
+
+}

@@ -52,7 +52,11 @@ namespace VideoEntityFrameworkCore.Controllers
             ViewData["ProdutoGrupoId"] = new SelectList(_context.ProdutosGrupos
                 .OrderBy(a => a.Nome), "ProdutoGrupoId", "Nome");
 
-            return View();
+            return View(new Produto()
+            {
+                ProdutoId = Guid.NewGuid(),
+                Categorias = new List<ProdutoCategoria>()
+            });
         }
 
         // POST: Produtos/Create
@@ -60,11 +64,13 @@ namespace VideoEntityFrameworkCore.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProdutoGrupoId,Nome,Valor")] Produto produto)
+        public async Task<IActionResult> Create(
+            [Bind("ProdutoId,ProdutoGrupoId,Nome,Valor,Categorias")] Produto produto)
         {
             if (ModelState.IsValid)
             {
-                produto.ProdutoId = Guid.NewGuid();
+                if (produto.ProdutoId == Guid.Empty)
+                    produto.ProdutoId = Guid.NewGuid();
                 _context.Add(produto);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -163,6 +169,17 @@ namespace VideoEntityFrameworkCore.Controllers
             _context.Produtos.Remove(produto);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult AdicionarCategoria()
+        {
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias.OrderBy(a => a.Nome),
+                "CategoriaId", "Nome");
+
+            return PartialView("_Categoria", new ProdutoCategoria()
+            {
+                ProdutoCategoriaId = Guid.NewGuid(),
+            });
         }
 
         private bool ProdutoExists(Guid id)
