@@ -90,7 +90,9 @@ namespace VideoEntityFrameworkCore.Controllers
                 return NotFound();
             }
 
-            var produto = await _context.Produtos.SingleOrDefaultAsync(m => m.ProdutoId == id);
+            var produto = await _context.Produtos
+                .Include(a => a.Categorias)
+                .SingleOrDefaultAsync(m => m.ProdutoId == id);
             if (produto == null)
             {
                 return NotFound();
@@ -99,6 +101,9 @@ namespace VideoEntityFrameworkCore.Controllers
             ViewData["ProdutoGrupoId"] = new SelectList(_context.ProdutosGrupos
                .OrderBy(a => a.Nome), "ProdutoGrupoId", "Nome",
                produto.ProdutoGrupoId);
+
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias
+                .OrderBy(a => a.Nome), "CategoriaId", "Nome");
             return View(produto);
         }
 
@@ -107,9 +112,10 @@ namespace VideoEntityFrameworkCore.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,ProdutoGrupoId,Nome,Valor")] Produto produto)
+        public async Task<IActionResult> Edit(Guid id, 
+            [Bind("ProdutoId,ProdutoGrupoId,Nome,Valor,Categorias")] Produto viewModel)
         {
-            if (id != produto.ProdutoId)
+            if (id != viewModel.ProdutoId)
             {
                 return NotFound();
             }
@@ -118,12 +124,47 @@ namespace VideoEntityFrameworkCore.Controllers
             {
                 try
                 {
-                    _context.Update(produto);
+                    var produto = await _context.Produtos
+                        .Include(a => a.Categorias)
+                        .SingleOrDefaultAsync(a => a.ProdutoId == id);
+                    produto.ProdutoGrupoId = viewModel.ProdutoGrupoId;
+                    produto.Nome = viewModel.Nome;
+                    produto.Valor = viewModel.Valor;
+
+                    if (viewModel.Categorias == null)
+                    {
+                        viewModel.Categorias = new List<ProdutoCategoria>();
+                    }
+
+                    foreach(var categoriaViewModel in viewModel.Categorias)
+                    {
+                        var categoria = produto.Categorias
+                            .FirstOrDefault(a => a.ProdutoCategoriaId == categoriaViewModel.ProdutoCategoriaId);
+
+                        if (categoria == null)
+                        {
+                            produto.Categorias.Add(categoriaViewModel);
+                        }
+                        else
+                        {
+                            categoria.CategoriaId = categoriaViewModel.CategoriaId;
+                        }
+                    }
+
+                    var categorias = produto.Categorias.ToList();
+                    foreach (var categoria in categorias)
+                    {
+                        if (!viewModel.Categorias
+                            .Any(a => a.ProdutoCategoriaId == categoria.ProdutoCategoriaId))
+                        {
+                            _context.ProdutosCategorias.Remove(categoria);
+                        }
+                    }
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProdutoExists(produto.ProdutoId))
+                    if (!ProdutoExists(viewModel.ProdutoId))
                     {
                         return NotFound();
                     }
@@ -137,8 +178,8 @@ namespace VideoEntityFrameworkCore.Controllers
 
             ViewData["ProdutoGrupoId"] = new SelectList(_context.ProdutosGrupos
                .OrderBy(a => a.Nome), "ProdutoGrupoId", "Nome",
-               produto.ProdutoGrupoId);
-            return View(produto);
+               viewModel.ProdutoGrupoId);
+            return View(viewModel);
         }
 
         // GET: Produtos/Delete/5
