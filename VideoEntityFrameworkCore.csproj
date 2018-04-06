@@ -11,6 +11,8 @@
     <Compile Remove="Data\Migrations\20180323230615_Heranca.Designer.cs" />
     <Compile Remove="Data\Migrations\20180329010920_MuitosParaMuitos.cs" />
     <Compile Remove="Data\Migrations\20180329010920_MuitosParaMuitos.Designer.cs" />
+    <Compile Remove="Migrations\20180406001553_Composicao.cs" />
+    <Compile Remove="Migrations\20180406001553_Composicao.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

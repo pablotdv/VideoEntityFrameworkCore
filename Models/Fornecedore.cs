@@ -7,23 +7,17 @@ using System.Threading.Tasks;
 
 namespace VideoEntityFrameworkCore.Models
 {
-    [Table("Pessoas")]
-    public class Pessoa
+    [Table("Fornecedores")]
+    public class Fornecedor
     {
         [Key]
+        [ForeignKey(nameof(Pessoa))]
         public Guid PessoaId { get; set; }
 
         [Required]
         [MaxLength(100)]
-        public string Nome { get; set; }
+        public string Atividade { get; set; }
 
-        [Required]
-        [MaxLength(14)]
-        [Display(Name = "CPF/CNPJ")]
-        public string CpfCnpj { get; set; }
-
-        public virtual Cliente Cliente { get; set; }
-
-        public virtual Fornecedor Fornecedor { get; set; }
+        public virtual Pessoa Pessoa { get; set; }
     }
 }
